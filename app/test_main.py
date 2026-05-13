@@ -25,10 +25,21 @@ def test_crypto_sell_all(mock_prediction: MagicMock) -> None:
 
 
 @patch("app.main.get_exchange_rate_prediction")
-def test_crypto_do_nothing(mock_prediction: MagicMock) -> None:
+def test_crypto_do_nothing_upper_boundary(mock_prediction: MagicMock) -> None:
     current_rate = 100
 
-    mock_prediction.return_value = 101
+    mock_prediction.return_value = 105
+
+    result = cryptocurrency_action(current_rate)
+
+    assert result == "Do nothing"
+
+
+@patch("app.main.get_exchange_rate_prediction")
+def test_crypto_do_nothing_lower_boundary(mock_prediction: MagicMock) -> None:
+    current_rate = 100
+
+    mock_prediction.return_value = 95
 
     result = cryptocurrency_action(current_rate)
 
